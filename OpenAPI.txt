@@ -1,0 +1,567 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "DeckOfCards",
+    "version": "1.0.0"
+  },
+  "servers": [
+    {
+      "url": "https://deckofcardsapi.com/api"
+    }
+  ],
+  "paths": {
+    "/deck/{deck_id}/shuffle/": {
+      "get": {
+        "tags": [
+          "deck"
+        ],
+        "summary": "Shuffle an existing deck of Cards.s",
+        "operationId": "shuffleExistingDeck",
+        "parameters": [
+          {
+            "name": "deck_id",
+            "in": "path",
+            "description": "The deck_id of the `Deck` which we wish to shuffle.",
+            "required": true,
+            "style": "simple",
+            "explode": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The newly created deck with a unique deck_id",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Deck"
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "Unexpected error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/deck/new/shuffle/": {
+      "get": {
+        "tags": [
+          "deck"
+        ],
+        "summary": "Shuffle a new deck of Cards",
+        "operationId": "shuffleNewDeck",
+        "parameters": [
+          {
+            "name": "deck_count",
+            "in": "query",
+            "description": "Add deck_count as a GET or POST parameter to define the number of Decks you want to use. Blackjack typically uses 6 decks. The default is 1.",
+            "required": false,
+            "style": "form",
+            "explode": true,
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "name": "cards",
+            "in": "query",
+            "description": "If you want to use a partial deck, then you can pass the card codes you want to use using the cards parameter. Separate the card codes with commas, and each card code is a just a two character case-insensitive string. The value, one of A (for an ace), 2, 3, 4, 5, 6, 7, 8, 9, 0 (for a ten), J (jack), Q (queen), or K (king); The suit, one of S (Spades), D (Diamonds), C (Clubs), or H (Hearts). In this example, we are asking for a deck consisting of all the aces, twos, and kings.",
+            "required": false,
+            "style": "form",
+            "explode": false,
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "example": "AS,2S,KS,AD,2D,KD,AC,2C,KC,AH,2H,KH"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The newly created deck with a unique deck_id",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Deck"
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "Unexpected error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/deck/new/shuffledDeckss/": {
+      "get": {
+        "tags": [
+          "deck"
+        ],
+        "summary": "Shuffle a new deck of Cards",
+        "operationId": "shuffleNewDeck2",
+        "parameters": [
+          {
+            "name": "deck_count",
+            "in": "query",
+            "description": "Add deck_count as a GET or POST parameter to define the number of Decks you want to use. Blackjack typically uses 6 decks. The default is 1.",
+            "required": false,
+            "style": "form",
+            "explode": true,
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "name": "cards",
+            "in": "query",
+            "description": "If you want to use a partial deck, then you can pass the card codes you want to use using the cards parameter. Separate the card codes with commas, and each card code is a just a two character case-insensitive string. The value, one of A (for an ace), 2, 3, 4, 5, 6, 7, 8, 9, 0 (for a ten), J (jack), Q (queen), or K (king); The suit, one of S (Spades), D (Diamonds), C (Clubs), or H (Hearts). In this example, we are asking for a deck consisting of all the aces, twos, and kings.",
+            "required": false,
+            "style": "form",
+            "explode": false,
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "example": "AS,2S,KS,AD,2D,KD,AC,2C,KC,AH,2H,KH"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The newly created deck with a unique deck_id",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Deck"
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "Unexpected error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/deck/new/": {
+      "get": {
+        "tags": [
+          "deck"
+        ],
+        "summary": "A new unshuffled deck of cards. A-spades, 2-spades, 3-spades... followed by diamonds, clubs, then hearts.",
+        "operationId": "newDeck",
+        "parameters": [
+          {
+            "name": "jokers_enabled",
+            "in": "query",
+            "description": "Add jokers_enabled as a GET or POST parameter to your request to include two Jokers in the deck.",
+            "required": false,
+            "style": "form",
+            "explode": true,
+            "schema": {
+              "type": "boolean"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The newly created deck with a unique deck_id",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Deck"
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "Unexpected error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/deck/{deck_id}/draw/": {
+      "get": {
+        "tags": [
+          "deck"
+        ],
+        "summary": "Draw a card from a deck given a deck_id.",
+        "operationId": "draw",
+        "parameters": [
+          {
+            "name": "deck_id",
+            "in": "path",
+            "description": "The deck_id of the `Deck` which we wish to draw a card from",
+            "required": true,
+            "style": "simple",
+            "explode": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "An object describing an array of cards",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Cards"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/deck/{deck_id}/pile/{pile_name}/add/": {
+      "get": {
+        "tags": [
+          "pile"
+        ],
+        "summary": "Draw a card from a pile",
+        "operationId": "addToPile",
+        "parameters": [
+          {
+            "name": "deck_id",
+            "in": "path",
+            "description": "The deck_id of the `Deck` which we wish to draw a card from",
+            "required": true,
+            "style": "simple",
+            "explode": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "pile_name",
+            "in": "path",
+            "description": "A name describing a pile.",
+            "required": true,
+            "style": "simple",
+            "explode": false,
+            "schema": {
+              "type": "string"
+            },
+            "example": "discarded"
+          },
+          {
+            "name": "cards",
+            "in": "query",
+            "description": "Piles can be used for discarding, players hands, or whatever else. Piles are created on the fly, just give a pile a name and add a drawn card to the pile. If the pile didn't exist before, it does now. After a card has been drawn from the deck it can be moved from pile to pile.",
+            "required": true,
+            "style": "form",
+            "explode": false,
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/components/schemas/Card"
+              }
+            },
+            "example": "AS,2S,KS,AD,2D,KD,AC,2C,KC,AH,2H,KH"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The deck with unique deck_id",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Deck"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/deck/{deck_id}/pile/{pile_name}/shuffle/": {
+      "get": {
+        "tags": [
+          "pile"
+        ],
+        "summary": "Shuffle a pile",
+        "operationId": "shufflePile",
+        "parameters": [
+          {
+            "name": "deck_id",
+            "in": "path",
+            "description": "The deck_id of the `Deck` which we wish to shuffle",
+            "required": true,
+            "style": "simple",
+            "explode": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "pile_name",
+            "in": "path",
+            "description": "A name describing a pile.",
+            "required": true,
+            "style": "simple",
+            "explode": false,
+            "schema": {
+              "type": "string"
+            },
+            "example": "discarded"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The deck with unique deck_id",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Deck"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/deck/{deck_id}/pile/{pile_name}/list/": {
+      "get": {
+        "tags": [
+          "pile"
+        ],
+        "summary": "List cards in pile",
+        "operationId": "listCardsInPile",
+        "parameters": [
+          {
+            "name": "deck_id",
+            "in": "path",
+            "description": "List the contents of a given pile within a given deck. Note that this will not work with multiple decks.",
+            "required": true,
+            "style": "simple",
+            "explode": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "pile_name",
+            "in": "path",
+            "description": "A name describing a pile.",
+            "required": true,
+            "style": "simple",
+            "explode": false,
+            "schema": {
+              "type": "string"
+            },
+            "example": "discarded"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The deck with unique deck_id",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Deck"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/deck/{deck_id}/pile/{pile_name}/draw/": {
+      "get": {
+        "tags": [
+          "pile"
+        ],
+        "summary": "Draw card from pile",
+        "operationId": "drawCardFromPile",
+        "parameters": [
+          {
+            "name": "deck_id",
+            "in": "path",
+            "description": "List the contents of a given pile within a given deck. Note that this will not work with multiple decks.",
+            "required": true,
+            "style": "simple",
+            "explode": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "pile_name",
+            "in": "path",
+            "description": "A name describing a pile.",
+            "required": true,
+            "style": "simple",
+            "explode": false,
+            "schema": {
+              "type": "string"
+            },
+            "example": "discarded"
+          },
+          {
+            "name": "count",
+            "in": "query",
+            "description": "The number of cards to draw from the pile",
+            "required": false,
+            "style": "form",
+            "explode": true,
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "name": "cards",
+            "in": "query",
+            "description": "Pass the card codes you want to use using the cards parameter. Separate the card codes with commas, and each card code is a just a two character case-insensitive string. The value, one of A (for an ace), 2, 3, 4, 5, 6, 7, 8, 9, 0 (for a ten), J (jack), Q (queen), or K (king); The suit, one of S (Spades), D (Diamonds), C (Clubs), or H (Hearts).",
+            "required": false,
+            "style": "form",
+            "explode": false,
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "example": "AS,2S,KS,AD,2D,KD,AC,2C,KC,AH,2H,KH"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The deck with unique deck_id",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Deck"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "Cards": {
+        "required": [
+          "cards"
+        ],
+        "type": "object",
+        "properties": {
+          "cards": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Card"
+            }
+          }
+        }
+      },
+      "Deck": {
+        "required": [
+          "deck_id",
+          "remaining",
+          "success"
+        ],
+        "type": "object",
+        "properties": {
+          "success": {
+            "type": "boolean"
+          },
+          "error": {
+            "type": "string"
+          },
+          "deck_id": {
+            "type": "string"
+          },
+          "shuffled": {
+            "type": "boolean"
+          },
+          "remaining": {
+            "type": "integer"
+          },
+          "cards": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Card"
+            }
+          }
+        }
+      },
+      "Card": {
+        "required": [
+          "code",
+          "image",
+          "suit",
+          "value"
+        ],
+        "type": "object",
+        "properties": {
+          "image": {
+            "type": "string"
+          },
+          "value": {
+            "type": "string"
+          },
+          "suit": {
+            "type": "string"
+          },
+          "code": {
+            "type": "string"
+          }
+        }
+      },
+      "Error": {
+        "required": [
+          "code",
+          "message"
+        ],
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "message": {
+            "type": "string"
+          }
+        }
+      }
+    }
+  }
+}

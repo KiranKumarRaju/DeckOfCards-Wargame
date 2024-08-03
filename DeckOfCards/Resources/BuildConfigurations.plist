@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>release</key>
+	<dict>
+		<key>serverUrl</key>
+		<string>https://deckofcardsapi.com/api</string>
+	</dict>
+	<key>debug</key>
+	<dict>
+		<key>serverUrl</key>
+		<string>https://deckofcardsapi.com/api</string>
+	</dict>
+</dict>
+</plist>

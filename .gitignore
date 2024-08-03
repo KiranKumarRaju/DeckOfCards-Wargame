@@ -1,0 +1,36 @@
+# Mac OS X
+*.DS_Store
+
+# Xcode
+*.pbxuser
+*.mode1v3
+*.mode2v3
+*.perspectivev3
+project.xcworkspace/
+xcuserdata/
+*.xcodeproj
+
+# Swift Package Manager
+.build
+
+# Other
+Pods
+vendor
+
+# Fastlane
+**fastlane/test_output
+**/fastlane/report.xml
+**/fastlane/Preview.html
+**/fastlane/screenshots
+**/fastlane/distribute_output
+**/fastlane/README.md
+
+# Bundler
+.bundle/config
+
+# App Code
+.idea
+
+# Release Directories
+build
+release

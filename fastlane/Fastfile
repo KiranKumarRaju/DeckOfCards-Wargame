@@ -1,0 +1,86 @@
+XCARCHIVES_FASTLANE_FOLDER = "fastlane/distribute_output/xcarchives"
+SPM_BUILD_DIRECTORY = ".build"
+
+fastlane_require 'fileutils'
+
+default_platform(:ios)
+
+before_all do |lane|
+  # Skip autogenerating Fastlane README
+  skip_docs()
+  
+  UI.message("Setting xcode build tools version")
+  xcversion(version: "15")
+end
+
+desc "Build xcarchives"
+private_lane :build_xcarchives do
+  UI.message("Removing previously built xcarchives")
+    FileUtils.rm_r(XCARCHIVES_FASTLANE_FOLDER) if Dir.exist?(XCARCHIVES_FASTLANE_FOLDER)
+
+  UI.message("Building DeckOfCards xcarchive for ARM64 devices")
+  sh(
+    "xcodebuild",
+    "archive",
+    "-project", "DeckOfCards.xcodeproj",
+    "-scheme", "DeckOfCards",
+    "-sdk", "iphoneos",
+    "-arch", "arm64",
+    "-archivePath", "#{XCARCHIVES_FASTLANE_FOLDER}/DeckOfCards_ios-arm64.xcarchive",
+    "-clonedSourcePackagesDirPath", ".",
+    "SKIP_INSTALL=NO",
+    "BUILD_LIBRARY_FOR_DISTRIBUTION=YES",
+  )
+
+  UI.message("Building DeckOfCards xcarchive for x86_64 and arm64 simulator")
+  sh(
+    "xcodebuild",
+    "archive",
+    "-project", "DeckOfCards.xcodeproj",
+    "-scheme", "DeckOfCards",
+    "-sdk", "iphonesimulator",
+    "-arch", "x86_64",
+    "-arch", "arm64",
+    "-archivePath", "#{XCARCHIVES_FASTLANE_FOLDER}/DeckOfCards_ios-arm64_x86_64.xcarchive",
+    "-clonedSourcePackagesDirPath", ".",
+    "SKIP_INSTALL=NO",
+    "BUILD_LIBRARY_FOR_DISTRIBUTION=YES",
+  )
+end
+
+desc "Run unit tests"
+lane :test do
+  UI.message("Running unit tests")
+  run_tests(project: "DeckOfCards.xcodeproj",
+            scheme: "DeckOfCards")
+end
+
+desc "Create distribution"
+desc <<-DESC 
+"Create distribution"
+  Options:
+    version_number, STRING This is the version number of the SDK being distributed given in Major.Minor.Patch format
+DESC
+lane :distribute do |options|
+  version_number = options[:version_number]
+  raise 'Must pass in version number' if version_number.nil?
+
+  Dir.chdir("..") do
+    UI.message("Setting up release directories")
+    FileUtils.rm_r('release') if Dir.exist?('release')
+    FileUtils.mkdir_p('release/Frameworks')
+    FileUtils.mkdir_p('release/Frameworks/DeckOfCards.xcframework')
+
+    build_xcarchives()
+
+    UI.message("Creating DeckOfCards xcframework")
+    sh(
+      "xcodebuild",
+      "-create-xcframework",
+      "-framework", "#{XCARCHIVES_FASTLANE_FOLDER}/DeckOfCards_ios-arm64_x86_64.xcarchive/Products/Library/Frameworks/DeckOfCards.framework",
+      "-framework", "#{XCARCHIVES_FASTLANE_FOLDER}/DeckOfCards_ios-arm64.xcarchive/Products/Library/Frameworks/DeckOfCards.framework",
+      "-output", "release/Frameworks/DeckOfCards.xcframework"
+    )
+
+  end
+end

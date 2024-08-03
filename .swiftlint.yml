@@ -1,0 +1,45 @@
+included:
+  - DeckOfCards/DeckOfCards
+  - DeckOfCards/WarGame
+
+analyzer_rules:
+  - unused_declaration
+  - unused_import
+
+opt_in_rules:
+  - empty_count
+  - indentation_width
+  - unavailable_function
+  - prohibited_interface_builder
+  - prohibited_super_call
+  - overridden_super_call
+
+disabled_rules:
+  - closing_brace
+  - line_length
+  - opening_brace
+  - trailing_whitespace
+  - file_length
+  - type_body_length
+  - function_parameter_count
+  - cyclomatic_complexity
+  - trailing_comma
+  - function_body_length
+  - redundant_string_enum_value
+  - prohibited_interface_builder
+
+# Rule configuration
+
+identifier_name:
+  min_length: 1
+  max_length: 120
+
+type_name:
+  min_length: 2
+  max_length: 120
+
+indentation_width:
+  indentation_width: 2
+  include_comments: false
+
+reporter: "xcode"
